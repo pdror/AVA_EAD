@@ -1,6 +1,70 @@
-<a class="button is-primary">Primary</a>
-<a class="button is-link">Link</a>
-<a class="button is-info">Info</a>
-<a class="button is-success">Success</a>
-<a class="button is-warning">Warning</a>
-<a class="button is-danger">Danger</a>
+<section class="hero is-primary is-fullheight is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-5-tablet is-4-desktop is-4-widescreen">
+
+          <div class="tabs is-toggle is-centered">
+            <ul>
+              <li class="is-active">
+                <a>
+                  <span class="icon is-small"><i class="fas fa-user" aria-hidden="true"></i></span>
+                  <span>Aluno</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="icon is-small"><i class="fas fa-graduation-cap" aria-hidden="true"></i></span>
+                  <span>Professor</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="icon is-small"><i class="fas fa-graduation-cap" aria-hidden="true"></i></span>
+                  <span>Tutor</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="box">
+          <form action="/users/login" method="POST">
+              <div class="field">
+                <label for-"email" class="label">E-mail</label>
+                <p class="control has-icons-left has-icons-right">
+                  <input id="email" class="input is-rounded" type="email" placeholder="Digite um e-mail válido">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </p>
+              </div>
+
+              <div class="field">
+                <label for="password" class="label">Senha</label>
+                <p class="control has-icons-left">
+                  <input id="password" class="input is-rounded" type="password" placeholder="Password">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </p>
+              </div>
+
+              <div class="buttons is-centered">
+                <p class="control">
+                  <button class="button is-primary is-rounded" type="submit">Entrar</button>
+                </p>
+              </div>
+          </form>
+          <br>
+            <div class="buttons is-centered">
+                  <p class="control">
+                    <a href="/users/new"><button class="button is-info is-rounded">Não sou cadastrado</button></a>
+                  </p>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
