@@ -1,0 +1,37 @@
+<section class="hero is-primary is-fullheight is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-5-tablet is-4-desktop is-4-widescreen">
+          {{>_msg}}
+          <h1 class="title">Crie um novo curso</h1>
+          <p class="subtitle">Aqui uma mensagem motivacional</p>
+          
+          <form action="/course/new" method="POST" class="box">
+            <div class="field">
+              <label for="title" class="label">Título do curso</label>
+              <div class="control">
+                <p class="control">
+                  <input id="title" name="title" class="input is-rounded" type="text" placeholder="Crie um nome objetivo" required>
+                </p></br>
+              </div>
+            </div>
+
+              <div class="field">
+                <label for="description" class="label">Descrição do curso</label>
+                <p class="control">
+                    <textarea id="description" class="textarea is-rounded" name="description" placeholder="Descreva em poucas palavras"></textarea>
+                </p>
+              </div>
+
+              <div class="buttons is-centered">
+                <p class="control">
+                  <button class="button is-primary is-rounded" type="submit">Criar</button>
+                </p>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

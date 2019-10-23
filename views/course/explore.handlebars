@@ -1,0 +1,44 @@
+<section class="hero is-primary is-fullheight">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-10-desktop">
+                    {{>_msg}}
+                    <h1 class="title">
+                        Lista de Cursos
+                    </h1>
+                    <a href="/course/new"> <button class="button is-info is-rounded">Criar novo curso</button> </a>
+                    <div class="section">
+                        <div class="container">
+                            <div class="tile is-ancestor">
+                                <div class="tile is-parent">
+                                    <textarea>Next, use our Get Started docs to setup Tiny!</textarea>
+                                    {{#each cursos}}
+                                        <article class="tile is-4 is-child box">
+                                            <h1 class="title is-spaced">{{title}}</h1>
+                                            <p class="content">{{description}}</p>
+                                            <a class="is-centered" href=""><button class="button is-primary">Acessar</button></a>
+                                        </article>
+                                    {{else}}
+                                    <div class="box is-centered">
+                                        <div class="subtitle is-dark">Nenhum curso disponível</div>
+                                    </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</section>
+{{!-- <div class="section">
+        <div class="container">
+            <div class="title is-centered">Lista de Cursos</div>
+            <a href=""> <button class="button is-info is-rounded">Criar novo curso</button> </a>
+        </div>
+    </div> --}}

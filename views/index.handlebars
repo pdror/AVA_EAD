@@ -1,10 +1,16 @@
-<section class="hero is-primary is-fullheight is-bold">
+<section class="hero is-primary is-fullheight">
   <div class="hero-body">
     <div class="container">
       <div class="columns is-centered">
         <div class="column is-5-tablet is-4-desktop is-4-widescreen">
-
-          <div class="tabs is-toggle is-centered">
+          {{>_msg}}
+          {{#if error}}
+          <div class="notification is-danger">
+            <button class="delete"></button>
+            {{error}}
+          </div>
+          {{/if}}
+          {{!-- <div class="tabs is-toggle is-centered">
             <ul>
               <li class="is-active">
                 <a>
@@ -25,13 +31,14 @@
                 </a>
               </li>
             </ul>
-          </div>
+          </div> --}}
           <div class="box">
-          <form action="/users/login" method="POST">
+            <form action="/users/login" method="POST">
               <div class="field">
                 <label for-"email" class="label">E-mail</label>
                 <p class="control has-icons-left has-icons-right">
-                  <input id="email" class="input is-rounded" type="email" placeholder="Digite um e-mail válido">
+                  <input id="email" class="input is-rounded" name="email" type="email"
+                    placeholder="Digite um e-mail válido" required>
                   <span class="icon is-small is-left">
                     <i class="fas fa-envelope"></i>
                   </span>
@@ -44,7 +51,8 @@
               <div class="field">
                 <label for="password" class="label">Senha</label>
                 <p class="control has-icons-left">
-                  <input id="password" class="input is-rounded" type="password" placeholder="Password">
+                  <input id="password" class="input is-rounded" name="password" type="password" placeholder="Password"
+                    required>
                   <span class="icon is-small is-left">
                     <i class="fas fa-lock"></i>
                   </span>
@@ -56,15 +64,16 @@
                   <button class="button is-primary is-rounded" type="submit">Entrar</button>
                 </p>
               </div>
-          </form>
-          <br>
-            <div class="buttons is-centered">
-                  <p class="control">
-                    <a href="/users/new"><button class="button is-info is-rounded">Não sou cadastrado</button></a>
-                  </p>
-              </div>
+            </form>
+            <br>
+            <div class="is-divider" data-content="OU"></div>
+            <div class="buttons is-centered is-spaced">
+              <p class="control">
+                <a href="/users/form"><button class="button is-info is-rounded">Não sou cadastrado</button></a>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 </section>

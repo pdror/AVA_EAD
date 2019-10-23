@@ -5,17 +5,16 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var handlebars = require('express-handlebars')
-var bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
 var session = require('express-session')
 var flash = require('connect-flash')
+var passport = require('passport')
+require('./config/auth')(passport)
+//require('./public/javascripts/scripts')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var courseRouter = require('./routes/course');
-
-//MODELS
-require('./models/Course')
-require('./models/Student')
 
 var app = express();
 
@@ -23,13 +22,30 @@ var app = express();
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'handlebars');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+//Body Parser
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
-app.use(cookieParser());
+
+//HANDLEBARS
+app.engine('handlebars', handlebars({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
+//Public
 app.use(express.static(path.join(__dirname, 'public')));
+
+// BANCO DE DADOS CONFIGURAÇÃO
+mongoose.Promise = global.Promise;
+mongoose.connect(
+  'mongodb+srv://pedror:avaeadp7@cluster0-byk7c.mongodb.net/ava?retryWrites=true&w=majority',
+  {useUnifiedTopology: true, useNewUrlParser: true}).then(() => {
+  console.log('Connected to database')
+}).catch((err) => {
+  console.log(err)
+});
+
+  //app.use(logger('dev'));
+  //app.use(express.json());
+  //app.use(cookieParser());
 
 //SESSION
 app.use(session({
@@ -37,34 +53,26 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }))
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(flash())
 
 //MESSAGES
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash('success_msg')
   res.locals.error_msg = req.flash('error_msg')
+  res.locals.error = req.flash('error')
   next()
 })
 
-//HANDLEBARS
-app.engine('handlebars', handlebars({defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
-
-// BANCO DE DADOS CONFIGURAÇÃO
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb+srv://pedror:avaeadp7@cluster0-byk7c.mongodb.net/admin?retryWrites=true&w=majority').then(() => {
-  console.log('Connected to database')
-}).catch((err) => {
-  console.log(err)
-});
-
 // ROTAS
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/course', courseRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+/* app.use(function(req, res, next) {
   next(createError(404));
 });
 
@@ -77,6 +85,6 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
-});
+}); */
 
 module.exports = app;

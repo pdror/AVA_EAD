@@ -8,6 +8,6 @@ const CourseSchema = new Schema({
   description : { type: String, required: true }
 });
 
-var Course = mongoose.model('Courses', CourseSchema);
+var Course = mongoose.model('courses', CourseSchema);
 
-module.exports = Course;
+//module.exports = Course;

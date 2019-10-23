@@ -1,0 +1,100 @@
+<section class="hero is-primary is-fullheight">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-5-tablet is-4-desktop is-4-widescreen">
+          {{>_msg}}
+          <h1 class="title">Novo por aqui?</h1>
+          <p class="subtitle">Selecione seu perfil de usuário e preencha os campos para obter acesso!</p>
+
+          {{!-- <div class="tabs is-toggle is-centered">
+            <ul>
+              <li class="is-active">
+                <a>
+                  <span class="icon is-small"><i class="fas fa-user" aria-hidden="true"></i></span>
+                  <span>Aluno</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="icon is-small"><i class="fas fa-graduation-cap" aria-hidden="true"></i></span>
+                  <span>Professor</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="icon is-small"><i class="fas fa-graduation-cap" aria-hidden="true"></i></span>
+                  <span>Tutor</span>
+                </a>
+              </li>
+            </ul>
+          </div> --}}
+
+          <form action="/users/new" method="POST" class="box" id="user-form">
+            <div class="field">
+              <label for="role" class="label">Eu sou:</label>
+              <div class="select is-rounded" id="role" form="user-form">
+                <select name="role">
+                  <option value="STUDENT" selected>Aluno</option>
+                  <option value="TEACHER">Professor</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="name" class="label">Nome</label>
+              <div class="control">
+                <p class="control">
+                  <input id="name" name="name" class="input is-rounded" type="text" placeholder="Como quer ser chamado?"
+                    required>
+                </p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for-"email" class="label">E-mail</label>
+              <p class="control has-icons-left has-icons-right">
+                <input id="email" name="email" class="input is-rounded" type="email"
+                  placeholder="Digite um e-mail válido" required>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-envelope"></i>
+                </span>
+                <span class="icon is-small is-right">
+                  <i class="fas fa-check"></i>
+                </span>
+              </p>
+            </div>
+
+            <div class="field">
+              <label for="password" class="label">Senha</label>
+              <p class="control has-icons-left">
+                <input id="password" name="password" class="input is-rounded" type="password"
+                  placeholder="Crie uma senha segura" required>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-lock"></i>
+                </span>
+              </p>
+            </div>
+
+            <div class="field">
+              <label for="check" class="label">Repita sua senha</label>
+              <p class="control has-icons-left">
+                <input id="check" name="check" class="input is-rounded" type="password"
+                  placeholder="Deve ser igual ao campo 'Senha'" required>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-lock"></i>
+                </span>
+              </p>
+            </div>
+
+            <div class="buttons is-centered">
+              <p class="control">
+                <button class="button is-primary is-rounded" type="submit">Cadastrar</button>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
