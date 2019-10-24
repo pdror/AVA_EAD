@@ -3,9 +3,10 @@ var router = express.Router();
 const mongoose = require('mongoose')
 require('../models/Course')
 const Course = mongoose.model('courses')
+const {isUser, isTeacher} = require('../helpers/isAdmin')
 
 /* GET course page. */
-router.get('/', function (req, res) {
+router.get('/', isUser, (req, res) => {
   Course.find().then((cursos) => {
     if(cursos.length >= 1) {
       console.log("Possuo cursos")
@@ -18,11 +19,11 @@ router.get('/', function (req, res) {
   })
 });
 
-router.get('/new', (req, res) => {
+router.get('/new', isTeacher, (req, res) => {
   res.render('course/new', { title: 'Novo Curso' })
 })
 
-router.post('/new', (req, res) => {
+router.post('/new', isTeacher, (req, res) => {
   const novoCurso = {
     title: req.body.title,
     description: req.body.description
@@ -39,10 +40,6 @@ router.post('/new', (req, res) => {
 
 router.get('/teste', (req, res) => {
   res.send('vdc')
-})
-
-/* POST course form */
-router.post('/course/new', (req, res, next) => {
 })
 
 module.exports = router;

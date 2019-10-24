@@ -56,7 +56,6 @@ router.post('/new', (req, res, next) => {
 })
 
 router.post('/login', (req, res, next) => {
-    console.log('entrei aqui')
     passport.authenticate('local', {
         successRedirect: '/course',
         failureRedirect: '/',
@@ -64,8 +63,9 @@ router.post('/login', (req, res, next) => {
     })(req, res, next)
 })
 
-router.get('/teste', (req, res) => {
-    res.send('isso')
+router.get('/logout', (req, res, next) => {
+    req.logout()
+    req.flash('success_msg', 'Volte sempre')
+    res.redirect('/')
 })
-
 module.exports = router;
