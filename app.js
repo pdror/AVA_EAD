@@ -49,7 +49,7 @@ mongoose.connect(
 
 //SESSION
 app.use(session({
-  secret: "avaead",
+  secret: "whose magi 67th blest",
   resave: true,
   saveUninitialized: true
 }))
@@ -87,5 +87,10 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.log(`Server running`)
+})
 
 module.exports = app;
