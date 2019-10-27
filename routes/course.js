@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 require('../models/Course')
 const Course = mongoose.model('courses')
 const {isUser, isTeacher} = require('../helpers/isAdmin')
+const {slugify, idify} = require('../helpers/slugify')
 
 /* GET course page. */
 router.get('/', isUser, (req, res) => {
@@ -24,10 +25,21 @@ router.get('/new', isTeacher, (req, res) => {
 })
 
 router.post('/new', isTeacher, (req, res) => {
+  console.log('im here')
   const novoCurso = {
     title: req.body.title,
-    description: req.body.description
+    description: req.body.description,
+    slug: slugify(req.body.title),
+    quickId: idify(this.slug),
+    instructor: {
+      instructorId: req.user.id,
+      name: req.user.name,
+      email: req.user.email
+    }
   }
+  console.log('now im here')
+
+  console.log(novoCurso)
 
   new Course(novoCurso).save().then(() => {
     req.flash('success_msg', 'Que legal! Você criou um novo curso!')
