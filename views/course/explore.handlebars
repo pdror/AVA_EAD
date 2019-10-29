@@ -31,12 +31,12 @@
         <div class="section">
             <div class="container">
                 <div class="tile is-ancestor">
-                    <div class="tile is-parent">
+                    <div class="tile is-parent is-vertical">
                         {{#each cursos}}
                         <article class="tile is-4 is-child box">
-                            <h1 class="title is-spaced">{{title}}</h1>
-                            <p class="content">{{description}}</p>
-                            <a class="is-centered" href=""><button class="button is-primary">Acessar</button></a>
+                            <h1 class="title is-spaced">{{cursos.title}}</h1>
+                            <p class="content">{{cursos.description}}</p>
+                            <a class="is-centered" href="/course/view/{{_id}}"><button class="button is-primary">Acessar</button></a>
                         </article>
                         {{else}}
                         <div class="box is-centered">

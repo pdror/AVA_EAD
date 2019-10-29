@@ -26,12 +26,13 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
+//Public
+app.use(express.static(path.join(__dirname, 'public')));
+
 //HANDLEBARS
 app.engine('handlebars', handlebars({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-//Public
-app.use(express.static(path.join(__dirname, 'public')));
 
 // BANCO DE DADOS CONFIGURAÇÃO
 mongoose.Promise = global.Promise;
@@ -73,9 +74,9 @@ app.use('/users', usersRouter);
 app.use('/course', courseRouter);
 
 // catch 404 and forward to error handler
- app.use(function(req, res, next) {
-  next(createError(404));
-});
+// app.use(function(req, res, next) {
+//  next(createError(404));
+// });
 
 // error handler
 // app.use(function(err, req, res, next) {

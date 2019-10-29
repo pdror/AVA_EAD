@@ -1,17 +1,37 @@
-<section class="section">
-    <div class="container">
-        <h1 class="title">Seu curso</h1>
-        <h2 class="subtitle">
-            Informações sobre o curso
-        </h2>
+{{#if course}}
+<section class="hero is-primary">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-5-tablet is-4-desktop is-4-widescreen">
+                    {{>_msg}}
+                    {{#if error}}
+                    <div class="notification is-danger">
+                        <button class="delete"></button>
+                        {{error}}
+                    </div>
+                    {{/if}}
+                    <h1 class="title is-centered">
+                        {{course.title}}
+                    </h1>
+                    <h2 class="subtitle">{{{course.description}}}</h2>
+                </div>
+                <div class="column">
+                    <p>Professor: {{course.instructor}}</p>
+                </div>
+            </div>
+        </div>
     </div>
-    </br>
+</section>
+<section class="section">
     <div class="container is-fluid">
         <div class="columns">
             <div class="column is-one-quarter is-centered">
+                <h2 class='title'>Módulos</h2>
+                {{#each course.modules}}
                 <nav class="panel">
                     <p class="panel-heading">
-                        Aulas
+                        {{title}}
                     </p>
                     <a class="panel-block is-active">
                         <span class="panel-icon">
@@ -19,39 +39,45 @@
                         </span>
                         bulma
                     </a>
-                    <a class="panel-block">
-                        <span class="panel-icon">
-                            <i class="fas fa-book" aria-hidden="true"></i>
-                        </span>
-                        marksheet
-                    </a>
-                    <a class="panel-block">
-                        <span class="panel-icon">
-                            <i class="fas fa-book" aria-hidden="true"></i>
-                        </span>
-                        minireset.css
-                    </a>
-                    <a class="panel-block">
-                        <span class="panel-icon">
-                            <i class="fas fa-book" aria-hidden="true"></i>
-                        </span>
-                        jgthms.github.io
-                    </a>
                     <div class="panel-block">
                         <button class="button is-link is-outlined is-fullwidth">
                             Nova aula
                         </button>
                     </div>
                 </nav>
+                {{else}}
+                <div class="box">
+                    <p class="subtitle">Nenhum módulo</p>
+                </div>
+                {{/each}}
+                <form action="/course/module/new" method="POST" class="box">
+                    <div class="field">
+                        <input name="id" value="{{course._id}}" type="hidden"></input>
+                        <label for="title" class="label">Título do módulo</label>
+                        <div class="control">
+                            <p class="control">
+                                <input id="title" name="title" class="input is-rounded" type="text" placeholder=""
+                                    required>
+                            </p></br>
+                        </div>
+                        <div class="buttons is-centered">
+                            <p class="control">
+                                <button class="button is-info is-rounded" type="submit">Criar módulo</button>
+                            </p>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="column">
+                <h2 class='title'>Conteúdo</h2>
                 <div class="box">
                     <div class="content">
-                        <h2>Nome da aula</h2>
-                        <h3>Aqui ficará o conteúdo da aula e editor Markdown (SimpleMDE)</h3>
+                        <h2>{{course.title}}</h2>
+                        <textarea name="lesson" id="" cols="30" rows="10"></textarea>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+{{/if}}
