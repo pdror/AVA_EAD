@@ -2,7 +2,7 @@
     <div class="hero-body">
         <div class="container">
             <div class="columns is-centered">
-                <div class="column is-5-tablet is-4-desktop is-4-widescreen">
+                <div class="column is-5-tablet is-4-desktop is-4-widescreen has-text-centered">
                     {{>_msg}}
                     {{#if error}}
                     <div class="notification is-danger">
@@ -18,9 +18,6 @@
                         <button class="button is-info is-rounded">Criar novo curso</button>
                     </a>
                     {{else}}
-                    <a href="/course/new">
-                        <button class="button is-info is-rounded">Matricular</button>
-                    </a>
                     {{/if}}
                 </div>
             </div>
@@ -51,8 +48,32 @@
                 </form>
             </div>
             {{/unless}}
-            <div class="column">
-                <div class="tile is-ancestor">
+            <div class="column is-5-desktop">
+                {{#each cursos}}
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            {{this.title}}
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            {{{this.description}}}
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="/course/view/{{_id}}" class="card-footer-item">Acessar</a>
+                    </footer>
+                </div>
+                <br>
+                {{else}}
+                <div class="box has-text-centered">
+                    <div class="subtitle is-dark">Você não se matriculou em nenhum curso</div>
+                    <p>Digite o código do curso disponibilizado pelo professor no formulário.</p>
+                    <p>{{curso}}</p>
+                </div>
+                {{/each}}
+                {{!-- <div class="tile is-ancestor">
                     <div class="tile is-parent is-vertical">
                         {{#each cursos}}
                         <article class="tile is-4 is-child box">
@@ -67,7 +88,7 @@
                         </div>
                         {{/each}}
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

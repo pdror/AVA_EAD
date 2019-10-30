@@ -7,6 +7,10 @@ const CourseSchema = new Schema({
   description : { type: String, required: true  },
   slug        : { type: String, required: true  },
   shareId     : { type: String, required: true  },
+  enrolledStudents : [{
+    type: ObjectId,
+    ref: "users"
+  }],
   instructor  : {
     type: ObjectId,
     ref: "users",

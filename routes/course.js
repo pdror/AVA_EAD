@@ -11,11 +11,24 @@ const randomString = require('../helpers/randomString')
 
 /* Exibir página inicial de cursos */
 router.get('/', isUser, (req, res) => {
-  Course.find({ instructor: req.user._id }).then((cursos) => {
-    res.render('course/explore', { title: 'Meus cursos', cursos: cursos, user: req.user });
-  }).catch((err) => {
-    req.flash('error_msg', 'Não foi possível obter a lista de cursos')
-  })
+  if(req.user.isTeacher){
+    console.log('sou professor')
+    Course.find({ instructor: req.user._id }).then((cursos) => {
+      console.log(cursos)
+      res.render('course/explore', { title: 'Meus cursos', cursos: cursos, user: req.user });
+    }).catch((err) => {
+      req.flash('error_msg', 'Não foi possível obter a lista de cursos')
+    })
+  } else if(!req.user.isTeacher) {
+    console.log('sou estudante')
+    Course.find({ enrolledStudents: {"$in": [req.user._id]} }).then((cursos) => {
+      console.log('entrei no find')
+      console.log(cursos)
+      res.render('course/explore', { title: 'Meus cursos', cursos: cursos, user: req.user });
+    }).catch((err) => {
+      req.flash('error_msg', 'Não foi possível obter a lista de cursos')
+    })
+  }
 });
 
 router.get('/new', isTeacher, (req, res) => {
@@ -46,22 +59,27 @@ router.post('/new', isTeacher, (req, res) => {
 /* ALUNO: matricular em curso */
 router.post('/enroll', isStudent, (req, res) => {
   Course.findOne({_id: req.body.code}).then(curso => {
-    console.log(curso)
-    console.log(req.user._id)
-    User.findOne({_id: req.user._id}).then(usuario => {
-      console.log('achei o usuario e estou aqui')
-      usuario.enrolled.push(req.body.code)
-      usuario.save().then(() => {
-        req.flash('success_msg', 'Matricula realizada')
-        res.redirect('/course')
-      }).catch((erro) => {
-        req.flash('error_msg', 'Erro interno')
-        res.redirect('/course')
-      })
-    }).catch((erro) => {
-      req.flash('error_msg', 'Erro interno')
+    curso.enrolledStudents.push(req.user._id)
+    curso.save().then(() => {
+      req.flash('success_msg', 'Matricula realizada')
+      res.redirect('/course')
+    }).catch((err) => {
+      req.flash('error_msg', 'Não foi possível realizar a matrícula')
       res.redirect('/course')
     })
+    // User.findOne({_id: req.user._id}).then(usuario => {
+    //   usuario.enrolled.push(req.body.code)
+    //   usuario.save().then(() => {
+    //     req.flash('success_msg', 'Matricula realizada')
+    //     res.redirect('/course')
+    //   }).catch((erro) => {
+    //     req.flash('error_msg', 'Erro interno')
+    //     res.redirect('/course')
+    //   })
+    // }).catch((erro) => {
+    //   req.flash('error_msg', 'Erro interno')
+    //   res.redirect('/course')
+    // })
   }).catch((err) => {
     req.flash('error_msg', 'Não existe um curso com este código')
     res.redirect('/course')
@@ -73,7 +91,7 @@ router.get('/view/:id', isUser, (req, res) => {
   console.log(req.params.id)
   Course.findOne({ _id: req.params.id }).then((curso) => {
     console.log(curso)
-    res.render('course/course', { title: 'Curso', course: curso })
+    res.render('course/course', { title: 'Curso', course: curso , enrolled: curso.enrolledStudents})
   }).catch((err) => {
     req.flash('error_msg', 'Não é possível exibir este curso')
     res.redirect('/course/explore')
