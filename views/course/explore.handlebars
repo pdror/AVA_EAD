@@ -13,23 +13,45 @@
                     <h1 class="title is-centered">
                         Meus Cursos
                     </h1>
+                    {{#if user.isTeacher}}
                     <a href="/course/new">
                         <button class="button is-info is-rounded">Criar novo curso</button>
                     </a>
+                    {{else}}
+                    <a href="/course/new">
+                        <button class="button is-info is-rounded">Matricular</button>
+                    </a>
+                    {{/if}}
                 </div>
             </div>
         </div>
     </div>
 </section>
-<section>
+<section class="section">
     <div class="container">
         <div class="columns is-centered">
-            <div class="column is-5-tablet is-4-desktop is-4-widescreen">
-
+            {{#unless user.isTeacher}}
+            <div class="column is-one-quarter">
+                <form action="/course/enroll" method="POST" class="box">
+                    <div class="field">
+                        <input name="id" value="{{user._id}}" type="hidden"></input>
+                        <label for="title" class="label">Código do curso</label>
+                        <div class="control">
+                            <p class="control">
+                                <input id="code" name="code" class="input is-rounded" type="text" placeholder=""
+                                    required>
+                            </p></br>
+                        </div>
+                        <div class="buttons is-centered">
+                            <p class="control">
+                                <button class="button is-info is-rounded" type="submit">Matricular</button>
+                            </p>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </div>
-        <div class="section">
-            <div class="container">
+            {{/unless}}
+            <div class="column">
                 <div class="tile is-ancestor">
                     <div class="tile is-parent is-vertical">
                         {{#each cursos}}
@@ -39,8 +61,9 @@
                             <a class="is-centered" href="/course/view/{{_id}}"><button class="button is-primary">Acessar</button></a>
                         </article>
                         {{else}}
-                        <div class="box is-centered">
-                            <div class="subtitle is-dark">Nenhum curso disponível</div>
+                        <div class="box has-text-centered">
+                            <div class="subtitle is-dark">Você não se matriculou em nenhum curso</div>
+                            <p>Digite o código do curso disponibilizado pelo professor no formulário.</p>
                         </div>
                         {{/each}}
                     </div>

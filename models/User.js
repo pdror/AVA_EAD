@@ -5,7 +5,11 @@ const UserSchema = new Schema({
   name      : { type: String },
   email     : { type: String },
   password  : { type: String },
-  isTeacher : { type: Boolean, default: false }
+  isTeacher : { type: Boolean, default: false },
+  enrolled  : [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'courses'
+  }]
 });
 
 mongoose.model('users', UserSchema);

@@ -3,15 +3,16 @@ var router = express.Router();
 const mongoose = require('mongoose')
 require('../models/Course')
 const Course = mongoose.model('courses')
-const { isUser, isTeacher } = require('../helpers/isAdmin')
+require('../models/User')
+const User = mongoose.model('users')
+const { isUser, isStudent, isTeacher } = require('../helpers/isAdmin')
 const { slugify, idify } = require('../helpers/slugify')
+const randomString = require('../helpers/randomString')
 
 /* Exibir página inicial de cursos */
 router.get('/', isUser, (req, res) => {
   Course.find({ instructor: req.user._id }).then((cursos) => {
-    console.log("id do usuario: " + req.user._id)
-    console.log("id passado por parametro: " + cursos.instructor)
-    res.render('course/explore', { title: 'Meus cursos', cursos: cursos });
+    res.render('course/explore', { title: 'Meus cursos', cursos: cursos, user: req.user });
   }).catch((err) => {
     req.flash('error_msg', 'Não foi possível obter a lista de cursos')
   })
@@ -23,14 +24,13 @@ router.get('/new', isTeacher, (req, res) => {
 
 /* Criar novo curso */
 router.post('/new', isTeacher, (req, res) => {
-  console.log('im here')
   const novoCurso = {
     title: req.body.title,
     description: req.body.description,
     slug: slugify(req.body.title),
+    shareId: (randomString(6)),
     instructor: req.user.id
   }
-  console.log('now im here')
 
   console.log(novoCurso)
 
@@ -40,6 +40,31 @@ router.post('/new', isTeacher, (req, res) => {
   }).catch((err) => {
     req.flash('error_msg', 'Não foi possível criar este curso.')
     res.redirect('/course/new')
+  })
+})
+
+/* ALUNO: matricular em curso */
+router.post('/enroll', isStudent, (req, res) => {
+  Course.findOne({_id: req.body.code}).then(curso => {
+    console.log(curso)
+    console.log(req.user._id)
+    User.findOne({_id: req.user._id}).then(usuario => {
+      console.log('achei o usuario e estou aqui')
+      usuario.enrolled.push(req.body.code)
+      usuario.save().then(() => {
+        req.flash('success_msg', 'Matricula realizada')
+        res.redirect('/course')
+      }).catch((erro) => {
+        req.flash('error_msg', 'Erro interno')
+        res.redirect('/course')
+      })
+    }).catch((erro) => {
+      req.flash('error_msg', 'Erro interno')
+      res.redirect('/course')
+    })
+  }).catch((err) => {
+    req.flash('error_msg', 'Não existe um curso com este código')
+    res.redirect('/course')
   })
 })
 
@@ -72,9 +97,26 @@ router.post('/module/new', (req, res) => {
   })
 })
 
+/* Deletar módulo */
+router.post('/module/delete', (req, res) => {
+  console.log(randomString(6))
+})
+
 /* Adicionar aula */
 router.post('/lesson/new', (req, res) => {
-  
+  Course.findOne({ _id: req.body.id }).then((course) => {
+    course.modules.lessons.push({ title: req.body.title, content: req.body.content })
+    course.save().then(() => {
+      req.flash('success_msg', 'Nova aula criada')
+      res.redirect('/course/view/' + req.body.id, {modules: course.modules})
+    }).catch((err) => {
+      req.flash('error_msg', 'Não foi possível fazer isso')
+      res.redirect('/course/view/' + req.body.id)
+    })
+  }).catch((err) => {
+    req.flash('error_msg', 'Não foi possível criar a aula')
+    res.redirect('/course/view/' + req.body.id)
+  })
 })
 
 module.exports = router;

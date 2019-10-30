@@ -32,6 +32,10 @@
                 <nav class="panel">
                     <p class="panel-heading">
                         {{title}}
+                        <form action="/course/module/delete" method='POST'>
+                            <input type="hidden" value="{{_id}}" name="delete"></input>
+                            <button class="delete" type="submit"></button>
+                        </form>
                     </p>
                     <a class="panel-block is-active">
                         <span class="panel-icon">
