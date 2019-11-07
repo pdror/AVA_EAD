@@ -2,6 +2,23 @@
     <div class="hero-body">
         <div class="container">
             <div class="columns is-centered">
+                <div class="column is-one-third">
+                    <div class="columns">
+                        <div class="column is-4 is-hidden-mobile">
+                            <figure class="image">
+                                <img style="border-radius: 50%" src="https://api.adorable.io/avatars/120/{{user.email}}.png">
+                            </figure>
+                        </div>
+                        <div class="column is-vertically-centered is-hidden-mobile">
+                            <h1 class="title">{{user.name}}</h1>
+                            {{#if user.isTeacher}}
+                            <span class="tag is-light">Professor</span>
+                            {{else}}
+                            <span class="tag is-light">Aluno</span>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
                 <div class="column is-5-tablet is-4-desktop is-4-widescreen has-text-centered">
                     {{>_msg}}
                     {{#if error}}
@@ -19,6 +36,9 @@
                     </a>
                     {{else}}
                     {{/if}}
+                </div>
+                <div class="column">
+
                 </div>
             </div>
         </div>

@@ -1,0 +1,31 @@
+<div class="modal" id="newCourse-modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+    <form action="/course/new" method="POST" class="box">
+        <div class="field">
+            <label for="title" class="label">Título do curso</label>
+            <div class="control">
+                <p class="control">
+                    <input id="title" name="title" class="input is-rounded" type="text"
+                        placeholder="Crie um nome objetivo" required>
+                </p></br>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="description" class="label">Descrição do curso</label>
+            <p class="control">
+                <textarea id="description" class="textarea is-rounded" name="description"
+                    placeholder="Descreva em poucas palavras"></textarea>
+            </p>
+        </div>
+
+        <div class="buttons is-centered">
+            <p class="control">
+                <button class="button is-primary is-rounded" type="submit">Criar</button>
+            </p>
+        </div>
+    </form>
+    </div>
+    <!-- <button class="modal-close is-large" aria-label="close"></button> -->
+</div>

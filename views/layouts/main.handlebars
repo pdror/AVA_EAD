@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,16 +8,102 @@
     <title>Open Class</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <script src="public/javascripts/scripts.js" type="text/javascript"></script>
+    <!-- <script src="public/javascripts/scripts.js" type="text/javascript"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bulma-extensions@6.2.7/dist/js/bulma-extensions.min.js"></script>
-    <script src="https://cdn.tiny.cloud/1/xyspsdxzyagdwb635h2uamg58o26jssf1c501te1ffm2qkf0/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>tinymce.init({selector:'textarea'});</script>
+    <script src="https://cdn.tiny.cloud/1/xyspsdxzyagdwb635h2uamg58o26jssf1c501te1ffm2qkf0/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
+    <script>tinymce.init({ selector: 'textarea' });</script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+    <script async src="https://comments.app/js/widget.js?2" data-comments-app-website="sO3NgDv2" data-limit="5"
+        data-color="13B4C6" data-outlined="1" data-colorful="1"></script>
+    <script type="text/javascript">
+        //Deletar notificação
+        document.addEventListener('DOMContentLoaded', () => {
+            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+                $notification = $delete.parentNode;
+                $delete.addEventListener('click', () => {
+                    $notification.parentNode.removeChild($notification);
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            // Check for click events on the navbar burger icon
+            $(".navbar-burger").click(function () {
+                // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                $(".navbar-burger").toggleClass("is-active");
+                $(".navbar-menu").toggleClass("is-active");
+            });
+        });
+
+        //Modal
+        $(document).ready(function () {
+            $('a#showModal').click(function () {
+                $('.modal').addClass('is-active');
+            });
+            $('.modal-close').click(function () {
+                $('.modal').removeClass('is-active');
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // Modals
+
+            var rootEl = document.documentElement;
+            var $modals = getAll('.modal');
+            var $modalButtons = getAll('.modal-button');
+            var $modalCloses = getAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button');
+
+            if ($modalButtons.length > 0) {
+                $modalButtons.forEach(function ($el) {
+                    $el.addEventListener('click', function () {
+                        var target = $el.dataset.target;
+                        var $target = document.getElementById(target);
+                        rootEl.classList.add('is-clipped');
+                        $target.classList.add('is-active');
+                    });
+                });
+            }
+
+            if ($modalCloses.length > 0) {
+                $modalCloses.forEach(function ($el) {
+                    $el.addEventListener('click', function () {
+                        closeModals();
+                    });
+                });
+            }
+
+            document.addEventListener('keydown', function (event) {
+                var e = event || window.event;
+                if (e.keyCode === 27) {
+                    closeModals();
+                }
+            });
+
+            function closeModals() {
+                rootEl.classList.remove('is-clipped');
+                $modals.forEach(function ($el) {
+                    $el.classList.remove('is-active');
+                });
+            }
+
+            // Functions
+
+            function getAll(selector) {
+                return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
+            }
+        });
+    </script>
 </head>
+
 <body>
     {{>_navbar}}
     {{>_about-modal}}
+    {{>_newCourse-modal}}
     <!-- {{>_msg}} -->
     {{{body}}}
     <!-- {{>_footer}} -->
 </body>
+
 </html>

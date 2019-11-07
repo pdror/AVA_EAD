@@ -4,34 +4,36 @@
             <div class="navbar-item is-white">
                 <a href="../"><img src="https://i.imgur.com/CrnMPpF.png"></a>
             </div>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
         </div>
         <div id="navbarMenuHeroC" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item is-active" href="../">
+                <a class="navbar-item" href="../">
                     Página Inicial
                 </a>
-                <a class="navbar-item" id="about-link">
+                <a class="navbar-item showModal" id="showModal">
                     Sobre
                 </a>
+                <!-- <div class="pageloader"><span class="title">Pageloader</span></div> -->
             </div>
             <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons">
-                        {{#if user}}
-                        <a class="button is-primary is-rounded is-inverted is-outlined" href="../users/logout">
-                            <i class="fas fa-sign-out-alt"></i>
-                            Sair
-                        </a>
-                        {{else}}
-                        <a class="button is-primary is-rounded is-inverted is-outlined" href="../users/form">
-                            Registrar
-                        </a>
-                        <a class="button is-primary is-rounded is-inverted is-outlined" href="../">
-                            Entrar
-                        </a>
-                        {{/if}}
-                    </div>
-                </div>
+                {{#if user}}
+                <a class="navbar-item" href="../users/logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
+                </a>
+                {{else}}
+                <a class="navbar-item" href="../users/form">
+                    Registrar
+                </a>
+                <a class="navbar-item" href="../">
+                    Entrar
+                </a>
+                {{/if}}
             </div>
         </div>
     </div>

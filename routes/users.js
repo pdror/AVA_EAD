@@ -65,7 +65,6 @@ router.post('/login', (req, res, next) => {
 
 router.get('/logout', (req, res, next) => {
     req.logout()
-    req.flash('success_msg', 'Volte sempre')
     res.redirect('/')
 })
 module.exports = router;

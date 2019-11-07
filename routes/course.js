@@ -137,4 +137,9 @@ router.post('/lesson/new', (req, res) => {
   })
 })
 
+router.get('/users/logout', (req, res, next) => {
+  req.logout()
+  res.redirect('/')
+})
+
 module.exports = router;
