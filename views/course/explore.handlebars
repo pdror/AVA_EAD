@@ -6,7 +6,8 @@
                     <div class="columns">
                         <div class="column is-4 is-hidden-mobile">
                             <figure class="image">
-                                <img style="border-radius: 50%" src="https://api.adorable.io/avatars/120/{{user.email}}.png">
+                                <img style="border-radius: 50%"
+                                    src="https://api.adorable.io/avatars/120/{{user.email}}.png">
                             </figure>
                         </div>
                         <div class="column is-vertically-centered is-hidden-mobile">
@@ -31,8 +32,8 @@
                         Meus Cursos
                     </h1>
                     {{#if user.isTeacher}}
-                    <a href="/course/new">
-                        <button class="button is-info is-rounded">Criar novo curso</button>
+                    <a>
+                        <button class="button is-info is-rounded add-course-btn">Criar novo curso</button>
                     </a>
                     {{else}}
                     {{/if}}
@@ -70,21 +71,21 @@
             {{/unless}}
             <div class="column is-5-desktop">
                 {{#each cursos}}
-                <div class="card">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            {{this.title}}
-                        </p>
-                    </header>
-                    <div class="card-content">
+                <article class="panel is-primary animated fadeIn">
+                    <p class="panel-heading">
+                        {{this.title}}
+                    </p>
+                    <br>
+                    <div class="panel-block">
                         <div class="content">
                             {{{this.description}}}
                         </div>
+                                            <br>
                     </div>
-                    <footer class="card-footer">
+                    <footer class="panel-block">
                         <a href="/course/view/{{_id}}" class="card-footer-item">Acessar</a>
                     </footer>
-                </div>
+                </article>
                 <br>
                 {{else}}
                 <div class="box has-text-centered">

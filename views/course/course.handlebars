@@ -22,6 +22,30 @@
             </div>
         </div>
     </div>
+    <div class="hero-footer">
+        <div class="tabs is-centered is-boxed">
+            <ul>
+                <li class="is-active">
+                    <a>
+                        <span class="icon is-small"><i class="fa fa-book" aria-hidden="true"></i></span>
+                        <span>Aulas</span>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <span class="icon is-small"><i class="fas fa-address-book" aria-hidden="true"></i></span>
+                        <span>Pessoas</span>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <span class="icon is-small"><i class="fab fa-rocketchat" aria-hidden="true"></i></span>
+                        <span>Chat</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </section>
 <section class="section">
     <div class="container is-fluid">
@@ -29,31 +53,39 @@
             <div class="column is-one-quarter is-centered">
                 <h2 class='title'>Módulos</h2>
                 {{#each course.modules}}
-                <nav class="panel">
+                <article class="panel is-primary">
                     <p class="panel-heading">
                         {{title}}
-                        <form action="/course/module/delete" method='POST'>
+                        {{!-- <form action="/course/module/delete" method='POST'>
                             <input type="hidden" value="{{_id}}" name="delete"></input>
                             <button class="delete" type="submit"></button>
-                        </form>
+                        </form> --}}
                     </p>
+                    {{#each course.modules.lessons}}
                     <a class="panel-block is-active">
                         <span class="panel-icon">
                             <i class="fas fa-book" aria-hidden="true"></i>
                         </span>
-                        bulma
+                        {{course.modules.lessons.title}}
                     </a>
+                    {{else}}
+                    <p class="panel-block">
+                        Nenhuma aula inserida
+                    </p>
+                    {{/each}}
                     <div class="panel-block">
-                        <button class="button is-link is-outlined is-fullwidth">
+                        <button class="button is-link is-outlined is-fullwidth add-lesson-btn">
                             Nova aula
                         </button>
+                        {{>_newLesson-modal}}
                     </div>
-                </nav>
+                </article>
                 {{else}}
                 <div class="box">
                     <p class="subtitle">Nenhum módulo</p>
                 </div>
                 {{/each}}
+
                 <form action="/course/module/new" method="POST" class="box">
                     <div class="field">
                         <input name="id" value="{{course._id}}" type="hidden"></input>
@@ -75,9 +107,20 @@
             <div class="column">
                 <h2 class='title'>Conteúdo</h2>
                 <div class="box">
-                    <div class="content">
+                    <div class="content" id="lesson-content">
                         <h2>{{course.title}}</h2>
-                        <textarea name="lesson" id="" cols="30" rows="10"></textarea>
+                        <textarea name="lesson" id="" cols="30" rows="40"></textarea>
+                    </div>
+                    <div class="is-hidden" id="lesson-form">
+                        <p>Formulário aqui</p>
+                    </div>
+                    <div class="field is-grouped is-grouped-centered">
+                        <p class="control">
+                            <button class="button is-success is-rounded" type="submit">Salvar modificações</button>
+                        </p>
+                        <p class="control">
+                            <button class="button is-danger is-rounded" type="submit">Excluir</button>
+                        </p>
                     </div>
                 </div>
             </div>

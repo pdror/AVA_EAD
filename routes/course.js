@@ -122,19 +122,21 @@ router.post('/module/delete', (req, res) => {
 
 /* Adicionar aula */
 router.post('/lesson/new', (req, res) => {
-  Course.findOne({ _id: req.body.id }).then((course) => {
-    course.modules.lessons.push({ title: req.body.title, content: req.body.content })
-    course.save().then(() => {
-      req.flash('success_msg', 'Nova aula criada')
-      res.redirect('/course/view/' + req.body.id, {modules: course.modules})
+  console.log(req.body)
+  Course.findOne({ modules: {"$in": [req.body.id]} }).then((module) => {
+    module.lessons.push({ title: req.body.title, content: req.body.content })
+    module.save().then(() => {
+      req.flash('success_msg', 'Novo módulo adicionado')
+      res.redirect('/course/view/' + module._id, {modules: course.modules, lessons: course.modules.lessons})
     }).catch((err) => {
       req.flash('error_msg', 'Não foi possível fazer isso')
-      res.redirect('/course/view/' + req.body.id)
+      res.redirect('/course/view/' + module.id)
     })
   }).catch((err) => {
-    req.flash('error_msg', 'Não foi possível criar a aula')
-    res.redirect('/course/view/' + req.body.id)
+    console.log("affffffff")
+    req.flash('error_msg', 'Não foi possível encontrar o objeto de destino')
   })
+  
 })
 
 router.get('/users/logout', (req, res, next) => {

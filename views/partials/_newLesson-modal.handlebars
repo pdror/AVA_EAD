@@ -1,0 +1,35 @@
+<div class="modal" id="add-lesson-modal">
+    <div class="modal-background"></div>
+    <div class="modal-content animated fadeInDown">
+        <form action="/course/lesson/new" method="POST" class="box">
+            <div class="field">
+                <label for="title" class="label">Título da aula</label>
+                <div class="control">
+                    <p class="control">
+                        <input id="title" name="title" class="input is-rounded" type="text"
+                            placeholder="Dê um nome à aula" required>
+                    </p></br>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="content" class="label">Conteúdo</label>
+                <p class="control">
+                    <textarea id="content" class="textarea is-rounded" name="content"
+                        placeholder="Descreva em poucas palavras"></textarea>
+                </p>
+            </div>
+
+            <input name="id" value="{{_id}}" type="hidden"></input>
+            
+            <p>Esta aula será adicionada ao módulo <strong>{{title}}</strong>.</p> <br>
+
+            <div class="buttons is-centered">
+                <p class="control">
+                    <button class="button is-primary is-rounded" type="submit">Criar</button>
+                    <button class="button is-light is-rounded add-lesson-cancel-btn">Cancelar</button>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
