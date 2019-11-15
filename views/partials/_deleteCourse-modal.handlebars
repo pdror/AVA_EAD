@@ -1,0 +1,29 @@
+<div class="modal" id="deleteCourse-modal">
+    <div class="modal-background"></div>
+    <div class="modal-content box animated fadeInDown">
+        <article class="panel is-danger">
+            <p class="panel-heading">
+                Deletar o curso
+            </p>
+            <p class="panel-block is-active">
+                Ao deletar este curso, todas as informações a ele relacionadas serão perdidas.
+                Este processo é irreversível.
+            </p>
+            <p class="panel-block has-text-centered">
+                <strong>Deseja continuar?</strong>
+            </p>
+            <div class="panel-block">
+                <form method="POST" action="/course/delete">
+                    <input type="hidden" value="{{course._id}}" name="idDelete"></input>
+                    <button class="button is-danger is-fullwidth" type="submit">
+                        Sim, desejo deletar este curso.
+                    </button>
+                </form>
+                <button class="button is-light is-fullwidth cancel-course-delete-btn">
+                    Não, quero voltar.
+                </button>
+            </div>
+        </article>
+    </div>
+    <!-- <button class="modal-close is-large" aria-label="close"></button> -->
+</div>

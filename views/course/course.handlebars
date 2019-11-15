@@ -1,10 +1,10 @@
 {{#if course}}
+{{>_deleteCourse-modal}}
 <section class="hero is-primary">
     <div class="hero-body">
         <div class="container">
             <div class="columns is-centered">
                 <div class="column is-5-tablet is-4-desktop is-4-widescreen">
-                    {{>_msg}}
                     {{#if error}}
                     <div class="notification is-danger">
                         <button class="delete"></button>
@@ -17,7 +17,34 @@
                     <h2 class="subtitle">{{{course.description}}}</h2>
                 </div>
                 <div class="column">
-                    <p>Professor: {{course.instructor}}</p>
+                </div>
+                <div class="column">
+                    <p>Código do Curso:</p>
+                    <span class="tag is-light is-medium">{{course._id}}</span>
+                    <div class="dropdown options-ddown">
+                        <div class="dropdown-trigger">
+                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu options-ddown-menu">
+                                <span>Opções</span>
+                                <span class="icon is-small">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item">
+                                    Atribuir um tutor
+                                </a>
+                                <a class="dropdown-item">
+                                    Editar informações
+                                </a>
+                                <hr class="dropdown-divider">
+                                <a class="dropdown-item deleteCourse-item">
+                                    Deletar o curso
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -48,11 +75,16 @@
     </div>
 </section>
 <section class="section">
-    <div class="container is-fluid">
+    <div class="container is-fluid-mobile">
+        <div class="columns is-centered">
+            <div class="column is-4">
+                {{>_msg}}
+            </div>
+        </div>
         <div class="columns">
             <div class="column is-one-quarter is-centered">
                 <h2 class='title'>Módulos</h2>
-                {{#each course.modules}}
+                {{#each modules}}
                 <article class="panel is-primary">
                     <p class="panel-heading">
                         {{title}}
@@ -61,12 +93,12 @@
                             <button class="delete" type="submit"></button>
                         </form> --}}
                     </p>
-                    {{#each course.modules.lessons}}
-                    <a class="panel-block is-active">
+                    {{#each lessons}}
+                    <a class="panel-block is-active lesson-link" data-key="{{_id}}" data-content="{{content}}">
                         <span class="panel-icon">
                             <i class="fas fa-book" aria-hidden="true"></i>
                         </span>
-                        {{course.modules.lessons.title}}
+                        {{title}}
                     </a>
                     {{else}}
                     <p class="panel-block">
@@ -74,7 +106,7 @@
                     </p>
                     {{/each}}
                     <div class="panel-block">
-                        <button class="button is-link is-outlined is-fullwidth add-lesson-btn">
+                        <button class="button is-link is-outlined is-fullwidth is-rounded add-lesson-btn">
                             Nova aula
                         </button>
                         {{>_newLesson-modal}}
@@ -88,7 +120,7 @@
 
                 <form action="/course/module/new" method="POST" class="box">
                     <div class="field">
-                        <input name="id" value="{{course._id}}" type="hidden"></input>
+                        <input name="courseId" value="{{course._id}}" type="hidden"></input>
                         <label for="title" class="label">Título do módulo</label>
                         <div class="control">
                             <p class="control">
@@ -107,9 +139,8 @@
             <div class="column">
                 <h2 class='title'>Conteúdo</h2>
                 <div class="box">
-                    <div class="content" id="lesson-content">
-                        <h2>{{course.title}}</h2>
-                        <textarea name="lesson" id="" cols="30" rows="40"></textarea>
+                    <div class="content">
+                        <textarea class="mceNonEditable" name="lesson" id="lesson-content" cols="30" rows="40"></textarea>
                     </div>
                     <div class="is-hidden" id="lesson-form">
                         <p>Formulário aqui</p>

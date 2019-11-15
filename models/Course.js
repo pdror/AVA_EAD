@@ -17,12 +17,8 @@ const CourseSchema = new Schema({
     required: true
   },
   modules     : [{
-    title: {type: String},
-    lessons: [{
-      _id: ObjectId, 
-      title: String,
-      content: String
-    }]
+      type: ObjectId, 
+      ref: 'modules',
   }]
 });
 

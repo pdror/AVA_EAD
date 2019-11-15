@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
     <script src="https://cdn.tiny.cloud/1/xyspsdxzyagdwb635h2uamg58o26jssf1c501te1ffm2qkf0/tinymce/5/tinymce.min.js"
         referrerpolicy="origin"></script>
-    <script>tinymce.init({ selector: 'textarea' });</script>
+    <script>tinymce.init({ selector: 'textarea', plugins: "media" });</script>
 </head>
 
 <body>
@@ -59,6 +59,29 @@
         $('.add-course-btn').click(() => {
             $('#newCourse-modal').addClass('is-active');
         });
+        $('.deleteCourse-item').click(() => {
+            $('#deleteCourse-modal').addClass('is-active');
+        })
+        $('.cancel-course-delete-btn').click(() => {
+            $('#deleteCourse-modal').removeClass('is-active');
+        })
+
+    //Dropdown Menu
+        $('.options-ddown').click((event) => {
+            $(event.currentTarget).toggleClass('is-active');
+        });
+        $('.options-ddown').on('mouseleave', () => {
+            $(event.currentTarget).removeClass('is-active');
+        })
+
+    //View Lessons
+        $('.lesson-link').click((event) => {
+            let lessonContent = $(event.currentTarget).attr('data-content')
+            //let text = "<textarea class='mceNonEditable' name='lesson' id='lesson-content' cols='30' rows='40'>" + lessonContent + "</textarea>"
+            let text = lessonContent
+            $('.content').html(text)
+            //$('#lesson-content').text(lessonContent)
+        })   
     //Lesson
         /* $('#add-lesson-btn').click(event => {
             $('#lesson-content').addClass('is-hidden')
