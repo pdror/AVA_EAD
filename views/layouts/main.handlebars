@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
     <script src="https://cdn.tiny.cloud/1/xyspsdxzyagdwb635h2uamg58o26jssf1c501te1ffm2qkf0/tinymce/5/tinymce.min.js"
         referrerpolicy="origin"></script>
-    <script>tinymce.init({ selector: 'textarea', plugins: "media" });</script>
+    <script>tinymce.init({ selector: 'textarea', plugins: "code image media" });</script>
 </head>
 
 <body>
@@ -20,10 +20,10 @@
     {{>_newCourse-modal}}
     <!-- {{>_msg}} -->
     {{{body}}}
-    <!-- {{>_footer}} -->
+    <!-- {{>_footer}} --> 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-<script src="public/main.js" type="text/javascript"></script>
+<script src="../../public/src/main.js"></script>
 <script type="text/javascript">
     //Deletar notificação
     document.addEventListener('DOMContentLoaded', () => {
@@ -39,18 +39,55 @@
         // Check for click events on the navbar burger icon
         $(".navbar-burger").click(function () {
             // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-            $(".navbar-burger").toggleClass("is-active");
-            $(".navbar-menu").toggleClass("is-active");
+            $(".navbar-burger").toggleClass("is-active")
+            $(".navbar-menu").slideToggle("is-active");
         });
 
-    //Modal
-        $('a#showModal').click(function () {
+        //Adds loading effects to 'Entrar' button
+        $('#login-btn').click((event) => {
+            let emailInput = $('#email')
+            let passwordInput = $('#password')
+            if(emailInput.val() && passwordInput.val()) {
+                $(event.currentTarget).addClass('is-loading')
+            }
+        })
+
+        //Tabs
+        $('.nav-tab').click((event) => {
+            $(event.currentTarget).addClass("is-active")
+            $(event.currentTarget).siblings().removeClass("is-active")
+        })
+
+        $('#lessons-tab').click(() => {
+            $('.lessons-section').removeClass('is-hidden')
+            $('.people-section').addClass('is-hidden')
+            $('.discuss-section').addClass('is-hidden')
+        })
+
+        $('#people-tab').click(() => {
+            $('.people-section').removeClass('is-hidden')
+            $('.lessons-section').addClass('is-hidden')
+            $('.discuss-section').addClass('is-hidden')
+        })
+
+        $('#discuss-tab').click(() => {
+            $('.lessons-section').addClass('is-hidden')
+            $('.people-section').addClass('is-hidden')
+            $('.discuss-section').removeClass('is-hidden')
+        })
+
+        //Modal
+        $('a#showModal').click(() => {
             $('#about-modal').addClass('is-active');
         });
-        $('.modal-close').click(function () {
+        $('.modal-close').click(() => {
             $('#about-modal').removeClass('is-active');
         });
         $('.add-lesson-btn').click(() => {
+            let moduleId = $(event.currentTarget).parent().parent().attr('id')
+            let moduleTitle = $(event.currentTarget).parent().parent().attr('data-title')
+            $('.module-input').attr('value', moduleId)
+            $('#module-title-strong').html(moduleTitle)
             $('#add-lesson-modal').addClass('is-active');
         });
         $('.add-lesson-cancel-btn').click(() => {
@@ -65,6 +102,9 @@
         $('.cancel-course-delete-btn').click(() => {
             $('#deleteCourse-modal').removeClass('is-active');
         })
+        $('.assignTutor-item').click(() => {
+            $('#assignTutor-modal').addClass('is-active');
+        })
 
     //Dropdown Menu
         $('.options-ddown').click((event) => {
@@ -74,20 +114,20 @@
             $(event.currentTarget).removeClass('is-active');
         })
 
+
     //View Lessons
         $('.lesson-link').click((event) => {
             let lessonContent = $(event.currentTarget).attr('data-content')
-            //let text = "<textarea class='mceNonEditable' name='lesson' id='lesson-content' cols='30' rows='40'>" + lessonContent + "</textarea>"
-            let text = lessonContent
-            $('.content').html(text)
-            //$('#lesson-content').text(lessonContent)
+            let lessonId = $(event.currentTarget).attr('data-id')
+            let moduleId = $(event.currentTarget).parent().attr('id')
+            $('.content').html(lessonContent)
+            $('#lesson-edit-link').attr('href', '/course/lesson/edit/' + lessonId)
+            $('#lesson-delete-input').attr('value', lessonId)
+            $('#lesson-delete-module-id').attr('value', moduleId)
         })   
-    //Lesson
-        /* $('#add-lesson-btn').click(event => {
-            $('#lesson-content').addClass('is-hidden')
-            $('#lesson-form').removeClass('is-hidden')
-        }) */
     });
+
+    //
 
     document.addEventListener('DOMContentLoaded', function () {
 

@@ -21,13 +21,6 @@
                     </div>
                 </div>
                 <div class="column is-5-tablet is-4-desktop is-4-widescreen has-text-centered">
-                    {{>_msg}}
-                    {{#if error}}
-                    <div class="notification is-danger">
-                        <button class="delete"></button>
-                        {{error}}
-                    </div>
-                    {{/if}}
                     <h1 class="title is-centered">
                         Meus Cursos
                     </h1>
@@ -38,15 +31,17 @@
                     {{else}}
                     {{/if}}
                 </div>
-                <div class="column">
-
-                </div>
             </div>
         </div>
     </div>
 </section>
 <section class="section">
     <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-5-tablet is-4-desktop is-4-widescreen">
+                {{>_msg}}
+            </div>
+        </div>
         <div class="columns is-centered">
             {{#unless user.isTeacher}}
             <div class="column is-one-quarter">
@@ -80,7 +75,7 @@
                         <div class="content">
                             {{{this.description}}}
                         </div>
-                                            <br>
+                        <br>
                     </div>
                     <footer class="panel-block">
                         <a href="/course/view/{{_id}}" class="card-footer-item">Acessar</a>
@@ -94,68 +89,9 @@
                     <p>{{curso}}</p>
                 </div>
                 {{/each}}
-                {{!-- <div class="tile is-ancestor">
-                    <div class="tile is-parent is-vertical">
-                        {{#each cursos}}
-                        <article class="tile is-4 is-child box">
-                            <h1 class="title is-spaced">{{cursos.title}}</h1>
-                            <p class="content">{{cursos.description}}</p>
-                            <a class="is-centered" href="/course/view/{{_id}}"><button class="button is-primary">Acessar</button></a>
-                        </article>
-                        {{else}}
-                        <div class="box has-text-centered">
-                            <div class="subtitle is-dark">Você não se matriculou em nenhum curso</div>
-                            <p>Digite o código do curso disponibilizado pelo professor no formulário.</p>
-                        </div>
-                        {{/each}}
-                    </div>
-                </div> --}}
+            </div>
+            <div class="column is-5-desktop">
             </div>
         </div>
     </div>
 </section>
-{{!-- <section class="hero is-primary is-fullheight">
-    <div class="hero-body">
-        <div class="container">
-            <div class="columns is-centered">
-                <div class="column is-10-desktop">
-                    {{>_msg}}
-                    <h1 class="title">
-                        Lista de Cursos
-                    </h1>
-                    <a href="/course/new"> <button class="button is-info is-rounded">Criar novo curso</button> </a>
-                    <div class="section">
-                        <div class="container">
-                            <div class="tile is-ancestor">
-                                <div class="tile is-parent">
-                                    <textarea>Next, use our Get Started docs to setup Tiny!</textarea>
-                                    {{#each cursos}}
-                                    <article class="tile is-4 is-child box">
-                                        <h1 class="title is-spaced">{{title}}</h1>
-                                        <p class="content">{{description}}</p>
-                                        <a class="is-centered" href=""><button
-                                                class="button is-primary">Acessar</button></a>
-                                    </article>
-                                    {{else}}
-                                    <div class="box is-centered">
-                                        <div class="subtitle is-dark">Nenhum curso disponível</div>
-                                    </div>
-                                    {{/each}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-
-        </div>
-    </div>
-</section> --}}
-{{!-- <div class="section">
-        <div class="container">
-            <div class="title is-centered">Lista de Cursos</div>
-            <a href=""> <button class="button is-info is-rounded">Criar novo curso</button> </a>
-        </div>
-    </div> --}}

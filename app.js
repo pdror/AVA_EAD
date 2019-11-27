@@ -23,11 +23,11 @@ var app = express();
 //app.set('view engine', 'handlebars');
 
 //Body Parser
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 //Public
-app.use(express.static('public'));
+app.use(express.static('/public'));
 
 //HANDLEBARS
 app.engine('handlebars', handlebars({defaultLayout: 'main'}));

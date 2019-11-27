@@ -1,0 +1,90 @@
+<section class="section lessons-section">
+    <div class="container is-fluid-mobile">
+        <div class="columns is-centered">
+            <div class="column is-4">
+                {{>_msg}}
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-one-quarter is-centered">
+                <h2 class='title'>Módulos</h2>
+                {{#each modules}}
+                <article class="panel is-primary" id="{{_id}}" data-title="{{title}}">
+                    <p class="panel-heading">
+                        {{title}}
+                    </p>
+                    {{#each lessons}}
+                    <a class="panel-block is-active lesson-link" data-id="{{_id}}" data-content="{{content}}">
+                        <span class="panel-icon">
+                            <i class="fas fa-book" aria-hidden="true"></i>
+                        </span>
+                        {{title}}
+                    </a>
+                    {{else}}
+                    <p class="panel-block">
+                        Nenhuma aula inserida
+                    </p>
+                    {{/each}}
+                    {{#if ../user.isTeacher}}
+                    <div class="panel-block">
+                        <button class="button is-link is-outlined is-fullwidth is-rounded add-lesson-btn">
+                            Nova aula
+                        </button>
+                        {{>_newLesson-modal}}
+                    </div>
+                    {{/if}}
+                </article>
+                {{else}}
+                <div class="box">
+                    <p class="subtitle">Nenhum módulo</p>
+                </div>
+                {{/each}}
+
+                {{#if user.isTeacher}}
+                <form action="/course/module/new" method="POST" class="box">
+                    <div class="field">
+                        <input name="courseId" value="{{course._id}}" type="hidden"></input>
+                        <label for="title" class="label">Título do módulo</label>
+                        <div class="control">
+                            <p class="control">
+                                <input id="title" name="title" class="input is-rounded" type="text" placeholder=""
+                                    required>
+                            </p></br>
+                        </div>
+                        <div class="buttons is-centered">
+                            <p class="control">
+                                <button class="button is-info is-rounded" type="submit">Criar módulo</button>
+                            </p>
+                        </div>
+                    </div>
+                </form>
+                {{/if}}
+            </div>
+            <div class="column">
+                <h2 class='title'>Conteúdo</h2>
+                <div class="box">
+                    <div class="content">
+                        <h4 class="has-text-centered">Selecione uma aula para visualizar</h4>
+                        <!-- <textarea class="mceNonEditable" name="lesson" id="lesson-content" cols="30" rows="40"></textarea> -->
+                    </div>
+                </div>
+                <div class="field is-grouped is-grouped-right">
+                    <a class="control" id="lesson-edit-link">
+                        <button class="button is-info is-rounded is-small" type="submit">
+                            <i class="far fa-edit"></i>
+                        </button>
+                    </a>
+                    <form action="/course/lesson/delete" method="POST">
+                        <input type="hidden" id="lesson-delete-input" name="lessonId">
+                        <input type="hidden" value="{{course._id}}" name="courseId">
+                        <input type="hidden" id="lesson-delete-module-id" name="moduleId">
+                        <button class="button is-danger is-rounded is-small" id="lesson-delete-btn" type="submit">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

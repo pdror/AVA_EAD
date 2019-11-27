@@ -16,6 +16,12 @@ const CourseSchema = new Schema({
     ref: "users",
     required: true
   },
+  tutor       : {
+    type: ObjectId,
+    ref: "users"
+  },
+  tutorName   : { type: String },
+  tutorEmail  : { type: String },
   modules     : [{
       type: ObjectId, 
       ref: 'modules',

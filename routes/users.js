@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs')
 const passport = require('passport')
 require('../models/User')
 const User = mongoose.model('users')
+const { isUser, isStudent, isTeacher } = require('../helpers/isAdmin')
 
 router.get('/form', function(req, res) {
     res.render('users/form', {title: 'Cadastro de Usuário'});
@@ -53,6 +54,14 @@ router.post('/new', (req, res, next) => {
         req.flash('error_msg', 'Erro interno')
         res.redirect('/')
     }) 
+})
+
+router.get('/login', (req, res, next) => {
+    if(isUser) {
+        res.redirect('/course')
+    } else {
+        res.render('login')
+    }
 })
 
 router.post('/login', (req, res, next) => {

@@ -1,0 +1,55 @@
+<section class="section people-section is-hidden">
+    <div class="container is-fluid-mobile">
+        <div class="columns is-centered">
+            <div class="column is-4">
+                {{>_msg}}
+            </div>
+        </div>
+        <div class="columns is-centered">
+            <div class="column is-three-quarters">
+                <div class="box">
+                    <h2 class="title">Tutor</h2>
+                    <table class="table is-striped is-fullwidth">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <figure class="image" style="width: 40px">
+                                        <img style="border-radius: 50%"
+                                            src="https://api.adorable.io/avatars/40/{{tutorEmail}}.png">
+                                    </figure>
+                                </td>
+                                <td>
+                                    {{course.tutorName}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h2 class="title">Alunos</h2>
+                    <table class="table is-striped is-fullwidth">
+                        <tbody>
+                            {{#each users}}
+                            <tr>
+                                <td>
+                                    <figure class="image" style="width: 40px">
+                                        <img style="border-radius: 50%"
+                                            src="https://api.adorable.io/avatars/40/{{email}}.png">
+                                    </figure>
+                                </td>
+                                <td>
+                                    {{name}}
+                                </td>
+                            </tr>
+                            {{else}}
+                            <tr>
+                                <td>
+                                    Está um pouco vazio aqui
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

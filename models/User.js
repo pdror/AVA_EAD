@@ -9,6 +9,10 @@ const UserSchema = new Schema({
   enrolled  : [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'courses'
+  }],
+  tutored   : [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'courses'
   }]
 });
 

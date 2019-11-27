@@ -1,0 +1,77 @@
+<section class="hero is-primary">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-5-tablet is-4-desktop is-4-widescreen">
+                    {{#if error}}
+                    <div class="notification is-danger">
+                        <button class="delete"></button>
+                        {{error}}
+                    </div>
+                    {{/if}}
+                    <h1 class="title is-centered">
+                        Editar Aula
+                    </h1>
+                    <h2 class="subtitle">{{lesson.title}}</h2>
+                </div>
+                <div class="column">
+                </div>
+                <div class="column">
+                    {{#if user.isTeacher}}
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section edit-lesson-section">
+    <div class="container is-fluid-mobile">
+        <div class="columns">
+            <div class="column is-3-quarters">
+                <form class="box" method="POST" action="/course/lesson/edit">
+                    <input type="hidden" name="courseId" value="{{lesson.courseId}}">
+                    <input type="hidden" name="lessonId" value="{{lesson._id}}">
+                    <div class="field">
+                        <p class="control">
+                            <label for="title" class="label">Novo título da aula: </label>
+                            <input type="text" class="input is-rounded" name="title" value="{{lesson.title}}">
+                        </p>
+                        <br>
+                    </div>
+                    <div class="field">
+                        <label for="content" class="label">Novo conteúdo: </label>
+                        <textarea id="content" class="textarea is-rounded" name="content"
+                            rows="30">{{lesson.content}}</textarea>
+                        <br>
+                    </div>
+                    <div class="field is-spaced">
+                        <p class="buttons is-centered">
+                            <button class="button is-success is-rounded" id="" type="submit">
+                                Salvar alterações
+                            </button>
+                            <button class="button is-danger is-rounded" onclick="window.history.go(-1); return false;">
+                                Voltar
+                            </button>
+                        </p>
+                    </div>
+                </form>
+                {{!-- <div class="field is-grouped is-grouped-right">
+                    <a class="control" id="lesson-edit-link">
+                        <button class="button is-info is-rounded is-small" type="submit">
+                            <i class="far fa-edit"></i>
+                        </button>
+                    </a>
+                    <form action="/course/lesson/delete" method="POST">
+                        <input type="hidden" id="lesson-delete-input" name="lessonId">
+                        <input type="hidden" value="{{course._id}}" name="courseId">
+                        <input type="hidden" id="lesson-delete-module-id" name="moduleId">
+                        <button class="button is-danger is-rounded is-small" id="lesson-delete-btn" type="submit">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+
+                    </form>
+                </div> --}}
+            </div>
+        </div>
+    </div>
+</section>

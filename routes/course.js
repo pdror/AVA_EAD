@@ -15,17 +15,15 @@ const randomString = require('../helpers/randomString')
 
 /* Exibir página inicial de cursos */
 router.get('/', isUser, (req, res) => {
-  if(req.user.isTeacher){
-    console.log('sou professor')
+  if (req.user.isTeacher) {
     Course.find({ instructor: req.user._id }).then((cursos) => {
       console.log(cursos)
       res.render('course/explore', { title: 'Meus cursos', cursos: cursos, user: req.user });
     }).catch((err) => {
       req.flash('error_msg', 'Não foi possível obter a lista de cursos')
     })
-  } else if(!req.user.isTeacher) {
-    console.log('sou estudante')
-    Course.find({ enrolledStudents: {"$in": [req.user._id]} }).then((cursos) => {
+  } else if (!req.user.isTeacher) {
+    Course.find({ enrolledStudents: { "$in": [req.user._id] } }).then((cursos) => {
       console.log('entrei no find')
       console.log(cursos)
       res.render('course/explore', { title: 'Meus cursos', cursos: cursos, user: req.user });
@@ -62,7 +60,7 @@ router.post('/new', isTeacher, (req, res) => {
 
 /* ALUNO: matricular em curso */
 router.post('/enroll', isStudent, (req, res) => {
-  Course.findOne({_id: req.body.code}).then(curso => {
+  Course.findOne({ _id: req.body.code }).then(curso => {
     curso.enrolledStudents.push(req.user._id)
     curso.save().then(() => {
       req.flash('success_msg', 'Matricula realizada')
@@ -79,10 +77,21 @@ router.post('/enroll', isStudent, (req, res) => {
 
 /* Exibir página do curso */
 router.get('/view/:id', isUser, (req, res) => {
-  console.log(req.params.id)
   Course.findOne({ _id: req.params.id }).then((curso) => {
-    Module.find({ courseId: req.params.id}).then((modules) => {
-      res.render('course/course', { title: 'Curso', course: curso , enrolled: curso.enrolledStudents, modules: modules})
+    Module.find({ courseId: req.params.id }).then((modules) => {
+      User.find({ _id: curso.enrolledStudents }).populate().then((users) => {
+        console.log("teacher id: " + req.user._id)
+        console.log("course instructor id: " + curso.instructor)
+        if (req.user._id == curso.instructor) {
+          let owner = true
+          console.log('is course owner ' + owner)
+          res.render('course/course', { title: curso.name, course: curso, enrolled: curso.enrolledStudents, modules: modules, users: users, owner })
+        } else {
+          let owner = false
+          console.log('is course owner ' + owner)
+          res.render('course/course', { title: curso.name, course: curso, enrolled: curso.enrolledStudents, modules: modules, users: users, owner })
+        }
+      })
     })
   }).catch((err) => {
     req.flash('error_msg', 'Não é possível exibir este curso')
@@ -119,7 +128,7 @@ router.post('/module/delete', (req, res) => {
 /* Adicionar aula */
 router.post('/lesson/new', (req, res) => {
   console.log(req.body)
-  Module.findOne({ _id : req.body.moduleId }).then((module) => {
+  Module.findOne({ _id: req.body.moduleId }).then((module) => {
     const newLesson = {
       title: req.body.title,
       content: req.body.content
@@ -133,15 +142,81 @@ router.post('/lesson/new', (req, res) => {
       res.redirect('/course/view/' + req.body.courseId)
     })
   }).catch((err) => {
-    console.log("affffffff")
     req.flash('error_msg', 'Não foi possível encontrar o objeto de destino')
   })
-  
 })
 
-router.post('/delete', (req, res, next) => {
+/* Atribuir tutor */
+router.post('/tutor/new', (req, res) => {
+  User.findOneAndUpdate({ email: req.body.email }, { "$push": { "tutored": req.body.courseId } }).then((foundUser) => {
+    Course.findById(req.body.courseId).then((course) => {
+      course.tutor = foundUser._id
+      course.tutorName = foundUser.name
+      course.tutorEmail = foundUser.email
+      course.save().then(() => {
+        req.flash('success_msg', foundUser.name + " agora é um Tutor")
+        res.redirect('/course/view/' + req.body.courseId)
+      }).catch((err) => {
+        req.flash('error_msg', 'Não foi possível fazer isto')
+        res.redirect('/course/view/' + req.body.courseId)
+      })
+    }).catch((err) => {
+      req.flash('error_msg', 'Não foi possível encontrar esse usuário')
+      res.redirect('/course/view/' + req.body.courseId)
+    })
+  })
+})
+
+/* Deletar aula */
+router.post('/lesson/delete', (req, res) => {
+  console.log("module id: " + req.body.moduleId)
+  console.log("lesson id: " + req.body.lessonId)
+  console.log("course id: " + req.body.courseId)
+  Module.update({ _id: req.body.moduleId }, { "$pull": { "lessons": { "_id": req.body.lessonId } } }).then(() => {
+    req.flash('success_msg', 'Aula deletada')
+    res.redirect('/course/view/' + req.body.courseId)
+  }).catch(() => {
+    req.flash('error_msg', 'Não foi possível deletar a aula')
+    res.redirect('/course/view/' + req.body.courseId)
+  })
+})
+
+/* Exibir página de edição de aula */
+router.get('/lesson/edit/:id', isTeacher, (req, res) => {
+  console.log("param id: " + req.params.id)
+  Module.findOne({ "lessons._id": { "$in": [req.params.id] } }).then((module) => {
+    const foundLesson = module.lessons.find(lesson => lesson._id == req.params.id)
+    console.log(foundLesson)
+    res.render('course/edit-lesson', { lesson: foundLesson, module: module })
+  }).catch(() => {
+    req.flash('error_msg', 'Não foi possível redirecionar para a página de edição')
+    res.redirect('back')
+  })
+})
+
+/* Editar aula */
+router.post('/lesson/edit', isTeacher, (req, res) => {
+  Module.findOne({ "lessons._id": { "$in": [req.body.lessonId] } }).then((module) => {
+    const foundLesson = module.lessons.find(lesson => lesson._id == req.body.lessonId)
+    foundLesson.title = req.body.title
+    foundLesson.content = req.body.content
+    module.save().then(() => {
+      req.flash('success_msg', 'Aula editada')
+      res.redirect('/course/view/' + req.body.courseId)
+    }).catch((err) => {
+      req.flash('error_msg', 'Não foi possível editar a aula')
+      res.redirect('back')
+    })
+  }).catch(() => {
+    req.flash('error_msg', 'Não foi possível fazer isto')
+    res.redirect('back')
+  })
+})
+
+/* Deletar curso */
+router.post('/delete', (req, res) => {
   console.log(req.body)
-  Course.remove({_id : req.body.idDelete}).then(() => {
+  Course.remove({ _id: req.body.idDelete }).then(() => {
     req.flash('success_msg', 'Curso deletado')
     res.redirect('/course')
   }).catch((err) => {
@@ -150,7 +225,7 @@ router.post('/delete', (req, res, next) => {
   })
 })
 
-router.get('/users/logout', (req, res, next) => {
+router.get('/users/logout', (req, res) => {
   req.logout()
   res.redirect('/')
 })
